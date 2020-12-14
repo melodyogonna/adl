@@ -7,6 +7,8 @@ import asyncio
 # project libraries
 from adl.main import BaseDownloader
 
+loop = asyncio.get_event_loop()
+
 
 class TestBaseDownloaderClass(TestCase):
     """This test file will test the methods provided by the Base Downloader
@@ -18,7 +20,10 @@ class TestBaseDownloaderClass(TestCase):
 
     def test_make_request_method(self):
         """Tests the make request method"""
-        make_request = self.adl.make_request
-        loop = asyncio.get_event_loop()
+        make_request = self.adl.make_request()
         response = loop.run_until_complete(make_request)
         self.assertEqual(response.status, 200)
+
+    def test_process_response_method(self):
+        make_request = loop.run_until_complete(self.adl.make_request())
+        self.assertEqual(make_request, 10)
